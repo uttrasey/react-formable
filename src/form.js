@@ -37,7 +37,7 @@ export const deNestErrors = function deNestErrors(errors) {
     return errors;
 }
 
-const nodeToValues =function nodeToValues(node) {
+const nodeToValues = function nodeToValues(node) {
     // Whoops, bad things happening
     if (!node) return node;
 
@@ -64,7 +64,6 @@ const nodeToValues =function nodeToValues(node) {
     // We are at a leaf, give our value back
     return node.ref.getValue();
 }
-
 
 // node: The current node we are looking at { ref: Object, refs?: Object|Array }
 // treeValues: The current value / object in the tree
@@ -164,21 +163,26 @@ export default React.createClass({
         onSubmit: PropTypes.func,
         onChange: PropTypes.func,
 
+        showErrorsOnSubmit: PropTypes.bool,
+        showErrorsOnChange: PropTypes.bool,
+
         // Default React children prop
         children: PropTypes.node
     },
 
-
     getDefaultProps() {
         return {
             onChange: function () {},
-            onSubmit: function () {}
+            onSubmit: function () {},
+            showErrorsOnSubmit: true,
+            showErrorsOnChange: false
         };
     },
 
     getInitialState() {
         return {
-            fieldErrors: {}
+            fieldErrors: {},
+            errors: []
         };
     },
 
@@ -223,10 +227,16 @@ export default React.createClass({
 
     onChange() {
         this.props.onChange(this.serialize());
+        if (this.props.showErrorsOnChange) {
+            this.showFieldErrors();
+        }
     },
 
     onSubmit(event) {
         event && event.preventDefault && event.preventDefault()
+        if (this.props.showErrorsOnSubmit) {
+            this.showFieldErrors();
+        }
         this.props.onSubmit(this.serialize());
     },
 
@@ -236,67 +246,47 @@ export default React.createClass({
         }
     },
 
-    showFieldErrors(props={}) {
-        if (typeof props !== 'object')
-            throw 'Bad props passed to showErrors';
+    showFieldErrors() {
+        const { fieldErrors, errors } = this.serialize();
 
-        const { fieldErrors } = this.serialize();
-
-        // Validate our props object
-        const vals = values(props);
-        const hasIncludes = vals.indexOf(1) !== -1;
-        const hasExcludes = vals.indexOf(0) !== -1;
-
-        if (hasIncludes && hasExcludes)
-            throw 'You can not include and exclude in showErrors';
-
-        const propKeys = keys(props);
-
-        // Set our internal state to house all our errors. This will pass down
-        // errors to each component
-        const shownErrors = hasIncludes ?
-                                pick(propKeys, fieldErrors) :
-                                omit(propKeys, fieldErrors)
-
-        this.setState({ fieldErrors: shownErrors });
-
-        return uniq(deNestErrors(shownErrors));
+        this.setState({ errors, fieldErrors });
+        return errors;
     },
 
     clearFieldErrors() {
         this.setState({
-            fieldErrors: []
+            fieldErrors: {},
+            errors: []
         });
     },
 
     render() {
         // Define our helpers for cloneing our children
         let childNames = [];
-        const clonePred = child => child.props && child.props.name;
+        const clonePred = child => child.props && child.props.name || child.type.displayName === 'Errors';
         const cloneProps = child => {
-            warning(
-                !child.ref,
-                `Attempting to attach ref "${child.ref}" to "${child.props.name}" will be bad for your health`
-            );
+            if (child.type.displayName === 'Errors') {
+                return {
+                    errors: this.state.errors,
+                    fieldErrors: this.state.fieldErrors
+                };
+            }
 
-            warning(
-                childNames.indexOf(child.props.name) === -1,
-                `Duplicate name "${child.props.name}" found. Duplicate fields will be ignored`
-            );
-
+            warning(!child.ref, `Attempting to attach ref "${child.ref}" to "${child.props.name}" will be bad for your health`);
+            warning(childNames.indexOf(child.props.name) === -1, `Duplicate name "${child.props.name}" found. Duplicate fields will be ignored`);
             childNames = childNames.concat(child.props.name);
 
             return {
                 ref: child.ref || child.props.name,
                 onChange: compose(child.props.onChange || identity, this.onChange),
                 onSubmit: compose(child.props.onSubmit || identity, this.onSubmit),
-                errors: child.props.errors || this.state.fieldErrors[child.props.name] || []
+                errors: this.state.errors,
+                fieldErrors: child.props.fieldErrors || this.state.fieldErrors[child.props.name]
             };
         };
 
         return <form {...this.props}
                     ref="form"
-                    className="testingggg"
                     onSubmit={this.onSubmit}
                     onChange={function () {}}
                     onKeyDown={this.onKeyDown}>

@@ -1,14 +1,16 @@
 import React, { PropTypes } from 'react';
 import values from './helpers/values';
 import Fieldset from './fieldset';
+import warning from 'warning';
 
 export default React.createClass({
     displayName: 'Fieldlist',
 
     propTypes: {
         errors: PropTypes.arrayOf(PropTypes.string),
-        children: PropTypes.node,
-        name: PropTypes.string.isRequired
+        fieldErrors: PropTypes.arrayOf(PropTypes.object),
+        name: PropTypes.string.isRequired,
+        children: PropTypes.node
     },
 
     getInputs() {
@@ -20,11 +22,21 @@ export default React.createClass({
     },
 
     render() {
-        const errors = this.props.errors || [];
+        warning(this.props.name, `Fieldlist found without a name prop. The children of this component will behave eratically`);
 
-        return <Fieldset {...this.props} ref="fieldset">
+        const errors = this.props.errors || [];
+        const fieldErrors = this.props.fieldErrors || [];
+
+        // Overwrite errors and fieldErrors passed in here as fieldset expects
+        // different errors than fieldlist. There is no need to pass them down
+        return <Fieldset {...this.props}
+                         ref="fieldset"
+                         errors={[]}
+                         fieldErrors={{}}>
             {React.Children.map(this.props.children, (child, i) =>
-                <Fieldset name={this.props.name+i} errors={errors[i]}>
+                <Fieldset name={this.props.name+i}
+                          errors={errors}
+                          fieldErrors={fieldErrors[i]}>
                     {child}
                 </Fieldset>
             )}

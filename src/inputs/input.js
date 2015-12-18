@@ -4,13 +4,18 @@ const identity = (x) => x;
 
 export default React.createClass({
     propTypes: {
-        errors: PropTypes.arrayOf(PropTypes.string)
+        fieldErrors: PropTypes.arrayOf(PropTypes.string),
+        validateOnBlur: PropTypes.bool,
+        onChange: PropTypes.func,
+        onSubmit: PropTypes.func,
+        className: PropTypes.string
     },
 
     getDefaultProps() {
         return {
             onChange: identity,
-            onSubmit: identity
+            onSubmit: identity,
+            className: ''
         };
     },
 
@@ -18,15 +23,26 @@ export default React.createClass({
         return this.refs.input.value;
     },
 
-    render() {
-        const hasError = this.props.errors && this.props.errors.length;
+    onChange(e) {
+        if(!this.props.validateOnBlur) {
+            this.props.onChange(e);
+        }
+    },
 
-        const style = {
-            border: `1px solid ${hasError ? 'red' : 'black'}`
-        };
+    onBlur() {
+        if (this.props.validateOnBlur) {
+            this.props.onChange();
+        }
+    },
+
+    render() {
+        const hasError = this.props.fieldErrors && this.props.fieldErrors.length;
+        const className = `${this.props.className} ${hasError ? 'error' : ''}`;
 
         return <input {...this.props}
-                      ref="input"
-                      style={style} />
+                      className={className}
+                      onChange={this.onChange}
+                      onBlur={this.onBlur}
+                      ref="input" />
     }
 });

@@ -9,6 +9,8 @@ export default React.createClass({
 
     propTypes: {
         errors: PropTypes.arrayOf(PropTypes.string),
+        fieldErrors: PropTypes.object,
+        name: PropTypes.string.isRequired,
         children: PropTypes.node
     },
 
@@ -26,24 +28,28 @@ export default React.createClass({
     },
 
     render() {
+        warning( this.props.name, `Fieldset found without a name prop. The children of this component will behave eratically` );
+
+        const fieldErrors = this.props.fieldErrors || {};
         let childNames = [];
-        const clonePred = child => child.props && child.props.name;
+
+        const clonePred = child => child.props && child.props.name || child.type.displayName === 'Errors';
         const cloneProps = child => {
-            warning(
-                !child.ref,
-                `Attempting to attach ref "${child.ref}" to "${child.props.name}" will be bad for your health`
-            );
+            if (child.type.displayName === 'Errors') {
+                return {
+                    errors: this.props.errors,
+                    fieldErrors: this.props.fieldErrors || {}
+                };
+            }
 
-            warning(
-                childNames.indexOf(child.props.name) === -1,
-                `Duplicate name "${child.props.name}" found. Duplicate fields will be ignored`
-            );
-
+            warning(!child.ref, `Attempting to attach ref "${child.ref}" to "${child.props.name}" will be bad for your health`);
+            warning(childNames.indexOf(child.props.name) === -1, `Duplicate name "${child.props.name}" found. Duplicate fields will be ignored`);
             childNames = childNames.concat(child.props.name);
 
             return {
                 ref: child.ref || child.props.name,
-                errors: child.props.errors || this.props.errors[child.props.name] || [],
+                errors: this.props.errors,
+                fieldErrors: child.props.fieldErrors || fieldErrors[child.props.name],
                 onChange: child.props.onChange || identity,
                 onSubmit: child.props.onSubmit || identity
             };

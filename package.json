@@ -1,8 +1,8 @@
 {
-  "name": "react-reform",
+  "name": "react-formable",
   "version": "0.1.0",
   "description": "A simple form library for react",
-  "main": "lib/reform.js",
+  "main": "lib/formable.js",
   "author": "Willowtree",
   "contributors": [
     {
@@ -15,13 +15,13 @@
       "name": "Christine Bryant-Ryback"
     }
   ],
-  "homepage": "https://github.com/willowtreeapps/react-reform",
+  "homepage": "https://github.com/willowtreeapps/react-formable",
   "repository": {
     "type": "git",
-    "url": "https://github.com/willowtreeapps/react-reform.git"
+    "url": "https://github.com/willowtreeapps/react-formable.git"
   },
   "bugs": {
-    "url": "https://github.com/willowtreeapps/react-reform/issues"
+    "url": "https://github.com/willowtreeapps/react-formable/issues"
   },
   "dependencies": {
     "warning": "^2.1.0"
@@ -34,20 +34,28 @@
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.11.3",
     "gulp": "^3.9.0",
+    "history": "^1.13.1",
     "jest-cli": "^0.8.1",
     "react": "^0.14.0",
     "react-addons-test-utils": "^0.14.3",
     "react-component-gulp-tasks": "^0.7.6",
-    "react-dom": "^0.14.0"
+    "react-dom": "^0.14.0",
+    "react-router": "^1.0.2"
   },
   "peerDependencies": {
     "react": "^0.14.0"
   },
   "browserify-shim": {
-    "react": "global:React"
+    "react": "global:React",
+    "react-dom": "global:ReactDOM",
+    "history": "global:History",
+    "react-router": "global:ReactRouter"
   },
   "scripts": {
     "build": "gulp clean && NODE_ENV=production gulp build",
+    "bump": "gulp bump",
+    "bump:major": "gulp bump:major",
+    "bump:minor": "gulp bump:minor",
     "examples": "gulp dev:server",
     "lint": "eslint ./; true",
     "publish:site": "NODE_ENV=production gulp publish:examples",
