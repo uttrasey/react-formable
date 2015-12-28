@@ -978,7 +978,7 @@ exports['default'] = _react2['default'].createClass({
     },
 
     render: function render() {
-        return _react2['default'].createElement(_componentsPage2['default'], { title: 'Homexx',
+        return _react2['default'].createElement(_componentsPage2['default'], { title: 'Home',
             className: 'home',
             subsections: subsections });
     }
