@@ -17,7 +17,7 @@ var _reactDom = require('react-dom');
 
 var _reactRouter = require('react-router');
 
-var history = (0, _history.useBasename)(_history.createHistory)({
+var history = (0, _history.useBasename)(_history.createHashHistory)({
     basename: window.location.pathname.indexOf('react') !== -1 ? '/react-formable' : '/'
 });
 
