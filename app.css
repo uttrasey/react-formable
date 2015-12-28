@@ -346,8 +346,8 @@ body {
   left: 0;
   bottom: 0;
   width: 200px;
+  background: #F7F7F7;
   border-right: 1px solid #DBDBDB;
-  background-color: #F7F7F7;
   padding: 24px;
 }
 .app .sidebar a {
@@ -383,4 +383,13 @@ table tbody tr:nth-child(even) {
 .docs .subsection {
   border-top: 3px solid #F7F7F7;
   padding-bottom: 24px;
+}
+.exampleForm input {
+  margin-left: 20px;
+}
+.formErrors {
+  color: red;
+}
+.formSuccess {
+  color: green;
 }
