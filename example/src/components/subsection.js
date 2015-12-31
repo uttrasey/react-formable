@@ -17,11 +17,11 @@ export default function Subsection(props) {
         {title && title.length && <h3>{title}</h3>}
 
         {content && content.map((Content, i) => {
-            if (typeof Content === 'string') {
-                return <MD key={i} text={Content} />
-            }
-            if (typeof Content === 'function') {
-                return <Content key={i} />
+            switch (typeof Content) {
+                case 'string':
+                    return <MD key={i} text={Content} />;
+                case 'function':
+                    return <Content key={i} />;
             }
         })}
         {subSections.map((subSection) => {
