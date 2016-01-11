@@ -3,11 +3,13 @@ import Page from '../../components/page';
 import * as Basic from './subsections/basic';
 import * as Signup from './subsections/signup';
 import * as Fieldset from './subsections/fieldset';
+import * as FormValidator from './subsections/formValidator';
 
 const subsections = [
     Basic,
     Signup,
-    Fieldset
+    Fieldset,
+    FormValidator
 ];
 
 export default React.createClass({
