@@ -227,7 +227,7 @@ export default React.createClass({
         );
         const formErrors = formValidators.map(fn => fn(form));
 
-        form.errors = uniq(form.errors.concat(formErrors));
+        form.errors = uniq(form.errors.concat(formErrors)).filter(i => i != undefined);
         form.valid = !form.errors.length;
 
         return form;

@@ -36,7 +36,7 @@ export default function FormValidator({ onChange }) {
             <Input name="password2"
                    type="password"
                    validators={[
-                       required('password is required')
+                       required('password2 is required')
                    ]} />
         </label>
 
