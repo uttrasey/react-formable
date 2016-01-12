@@ -1,10 +1,16 @@
 /*eslint func-style:0*/
 import React, { PropTypes } from 'react';
-import { Form, Input, Errors } from 'react-formable';
+import { Form, Input, Errors, Fieldset } from 'react-formable';
 const { required } = require('react-formable').validators;
 
 function validateForm(form) {
-    if (form.fieldValues.password !== form.fieldValues.password2) {
+    if (form.fieldValues.password !== 'cat') {
+        return 'password must be cat';
+    }
+}
+
+function validateFieldset(fieldset) {
+    if (fieldset.password !== fieldset.password2) {
         return 'passwords must match';
     }
 }
@@ -22,23 +28,25 @@ export default function FormValidator({ onChange }) {
                    ]} />
         </label>
 
-        <label>
-            Password *
-            <Input name="password"
-                   type="password"
-                   validators={[
-                       required('password is required')
-                   ]} />
-        </label>
+        <Fieldset name="pw" validators={[validateFieldset]}>
+            <label>
+                Password *
+                <Input name="password"
+                       type="password"
+                       validators={[
+                           required('password is required')
+                       ]} />
+            </label>
 
-        <label>
-            Password Retype *
-            <Input name="password2"
-                   type="password"
-                   validators={[
-                       required('password2 is required')
-                   ]} />
-        </label>
+            <label>
+                Password Retype *
+                <Input name="password2"
+                       type="password"
+                       validators={[
+                           required('password2 is required')
+                       ]} />
+            </label>
+        </Fieldset>
 
         <input type="submit" value="Submit" />
     </Form>;
