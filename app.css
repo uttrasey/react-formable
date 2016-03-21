@@ -239,9 +239,11 @@ a:hover,
 pre,
 code {
   font-family: 'Inconsolata';
+  background-color: #F5F5F5;
 }
 pre {
-  padding: 11px;
+  overflow-x: scroll;
+  padding: 12px;
   border: 1px solid #DBDBDB;
   border-radius: 3px;
   width: 100%;
@@ -299,6 +301,7 @@ body {
 .app .header ul,
 .app .footer ul {
   margin: 0;
+  list-style: none;
 }
 .app .header a,
 .app .footer a {
@@ -321,7 +324,7 @@ body {
 }
 .app .header nav {
   margin-left: auto;
-  padding: 34px;
+  padding: 48px;
 }
 .app .footer {
   height: 160px;
@@ -329,7 +332,7 @@ body {
   background-color: #2e3c44;
 }
 .app .footer .logos {
-  padding-top: 31px;
+  padding-top: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -345,7 +348,7 @@ body {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 200px;
+  width: 250px;
   background: #F7F7F7;
   border-right: 1px solid #DBDBDB;
   padding: 24px;
@@ -353,13 +356,16 @@ body {
 .app .sidebar a {
   color: #4A4A4A;
 }
+.app .sidebar ul {
+  list-style: none;
+}
 .app .sidebar li ul {
   margin-left: 10px;
 }
 .app .app-content {
   padding: 24px 48px;
-  margin-left: 200px;
-  max-width: 900px;
+  margin-left: 250px;
+  /*max-width: 900px;*/
 }
 table {
   border: 1px solid #DBDBDB;
@@ -384,12 +390,110 @@ table tbody tr:nth-child(even) {
   border-top: 3px solid #F7F7F7;
   padding-bottom: 24px;
 }
-.exampleForm input {
-  margin-left: 20px;
-}
 .formErrors {
   color: red;
 }
 .formSuccess {
   color: green;
+}
+.well {
+  padding: 24px;
+  text-align: center;
+  background: #EDF8F7;
+  border-radius: 3px;
+}
+.github-well h3,
+.github-well .btn {
+  text-transform: uppercase;
+}
+.github-well p {
+  padding-top: 12px;
+}
+.btn {
+  background: #2A7885;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.split {
+  display: flex;
+}
+.split > * {
+  width: 50%;
+}
+label {
+  display: block;
+}
+ul {
+  list-style: disc;
+  list-style-position: inside;
+}
+ol {
+  list-style: decimal;
+  list-style-position: inside;
+}
+.mobile-nav {
+  display: none;
+  background: #F7F7F7;
+  overflow: hidden;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+}
+.mobile-nav a {
+  color: #4A4A4A;
+}
+.mobile-nav ul li {
+  display: inline;
+  padding: 12px;
+}
+@media only screen and (max-width: 992px) {
+  .app .sidebar {
+    width: 0;
+    padding: 0;
+    display: none;
+  }
+  .app .app-content {
+    margin-left: 0;
+  }
+  .app .header .logo {
+    width: 200px;
+    height: 31px;
+    margin: 20px;
+  }
+  .split {
+    flex-direction: column;
+  }
+  .split > * {
+    width: 100%;
+  }
+  .mobile-nav {
+    display: block;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .mobile-nav {
+    height: auto;
+    line-height: 25px;
+  }
+  .mobile-nav ul {
+    padding: 0;
+    margin-bottom: 5px;
+  }
+  .mobile-nav ul li {
+    display: block;
+    padding: 5px;
+  }
+  .app .header {
+    height: 50px;
+  }
+  .app .header nav {
+    padding: 12px;
+  }
+  .app .header .logo {
+    width: 150px;
+    height: 23px;
+    margin: 20px;
+  }
 }
