@@ -23,8 +23,12 @@ describe('Fieldset', () => {
     });
 
     it('can get inputs', () => {
+        const data = {
+            name: 'sprinkles',
+            type: 'cat'
+        }
         let fieldset = TestUtils.renderIntoDocument(
-            <BoundFieldset name="pet">
+            <BoundFieldset name="pet" data={data}>
                 <label> Pet Name: <Input name="name" type="text"
                     value="george" /> </label>
                 <label> Pet Type: <Input name="type" type="text"

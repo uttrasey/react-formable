@@ -13,7 +13,8 @@ export default React.createClass({
         name: PropTypes.string.isRequired,
         children: PropTypes.node,
         onChange: PropTypes.func,
-        onSubmit: PropTypes.func
+        onSubmit: PropTypes.func,
+        data: PropTypes.data
     },
 
     getInputs() {
