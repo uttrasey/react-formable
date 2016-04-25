@@ -1,20 +1,20 @@
-jest.dontMock('../fieldset');
+jest.dontMock('../boundFieldset');
 jest.dontMock('../inputs/input');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
-const Fieldset = require('../fieldset').default;
+const BoundFieldset = require('../boundFieldset').default;
 const Input = require('../inputs/input').default;
 
 describe('Fieldset', () => {
     it('renders div with name of the fieldset', () => {
         let fieldset = TestUtils.renderIntoDocument(
-            <Fieldset name="pet">
+            <BoundFieldset name="pet">
                 <label> Pet Name: <Input name="name" type="text" /> </label>
                 <label> Pet Type: <Input name="type" type="text" /> </label>
-            </Fieldset>
+            </BoundFieldset>
         );
 
         const fieldsetNode = ReactDOM.findDOMNode(fieldset);
@@ -24,12 +24,12 @@ describe('Fieldset', () => {
 
     it('can get inputs', () => {
         let fieldset = TestUtils.renderIntoDocument(
-            <Fieldset name="pet">
+            <BoundFieldset name="pet">
                 <label> Pet Name: <Input name="name" type="text"
                     value="george" /> </label>
                 <label> Pet Type: <Input name="type" type="text"
                     value="dog" /> </label>
-            </Fieldset>
+            </BoundFieldset>
         );
 
         const inputs = fieldset.getInputs();
